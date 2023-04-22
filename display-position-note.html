@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>basic table</title>
+        <div class="all"
+        style="
+            position: fixed;
+            top: 0%;
+            left: 0%;
+            background-color: rgba(128, 128, 128, 0.393);
+            width: 100%;
+            height: 100%;">
+            </div>
+    </head>
+
+    <body>
+        <style>
+            .block{
+                border-style: dotted;
+                background-color: whitesmoke;
+                padding: 10px;
+                width: 370px;
+            }
+            .text{
+                background-color: antiquewhite;
+                text-align: center;
+                padding: 5%;
+            }
+            .padding{
+                background-color: bisque;
+                padding: 5%
+            }
+            .border{
+                background-color: palevioletred;
+                padding: 5%
+            }
+            .margin{
+                background-color: paleturquoise;
+                padding: 5%
+            }
+        </style>
+
+        <div class="Box_Model">
+            <h1>Box Model</h1>
+            <div class="margin">
+                <div class="border">
+                    <div class="padding">
+                        <div class="text">
+                            <h2>Simple Box</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="CSS_Display">
+            <h1>CSS Display</h1>
+
+            <div class="inline">
+                <h2>inline</h2>
+                <div class="block" style="padding: 10px; display: flex;">
+
+                    <div class="text"
+                    style="background-color: palegoldenrod;">
+                        inline text1 
+                    </div>
+                    <div class="text"
+                    style="background-color: palegreen;">
+                        inline text2
+                    </div>
+                    <div class="text"
+                    style="background-color: paleturquoise">
+                        inline text3
+                    </div>
+                    <div class="text"
+                    style="background-color: pink">
+                        inline text4
+                    </div>
+                    <div class="text"
+                    style="background-color: plum">
+                        inline text5
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="Block">
+                <h2>block</h2>
+                <div class="block" style="padding: 10px;">
+
+                    <div class="text"
+                    style="background-color: palegoldenrod;">
+                        block text1 
+                    </div>
+                    <div class="text"
+                    style="background-color: palegreen;">
+                        block text2
+                    </div>
+                    <div class="text"
+                    style="background-color: paleturquoise">
+                        block text3
+                    </div>
+                    <div class="text"
+                    style="background-color: pink">
+                        block text4
+                    </div>
+                    <div class="text"
+                    style="background-color: plum">
+                        block text5
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="inline-block">
+                <h2>inline-block</h2>
+
+                <div class="block"
+                style="
+                display: flex;
+                padding-left: 10px;
+                width: 220px;">
+
+                    <p style="margin-right: 5px;">apple</p>
+                    <p style="margin-right: 5px;">orange</p>
+                    <p style="margin-right: 5px;">mango</p>
+                    <p style="margin-right: 5px;">watermalon</p>                   
+                </div>
+            </div>
+
+            <div class="none">
+                <h2>none</h2>
+                
+                <div class="block"
+                style="
+                display: flex;
+                padding-left: 10px;
+                width: 220px;">
+
+                    <p style="margin-right: 5px;">apple</p>
+                    <p style="margin-right: 5px;">orange</p>
+                    <p style="margin-right: 5px; display: none;">mango</p>
+                    <p style="margin-right: 5px;">watermalon</p>
+                   
+                </div>
+            </div>
+
+            <div class="display:none vs visibility:hidden">
+                <h2>display:none vs visibility:hidden</h2>
+
+                <div class="block"
+                style="
+                display: flex;
+                padding-left: 10px;
+                width: 220px;">
+
+                    <p style="margin-right: 5px;">apple</p>
+                    <p style="margin-right: 5px; visibility: hidden;">orange</p>
+                    <p style="margin-right: 5px; display: none;">mango</p>
+                    <p style="margin-right: 5px;">watermalon</p>
+                   
+                </div>
+            </div>
+        </div>
+
+        <div class="CSS_Position">
+            <h1>CSS Position</h1>
+
+            <div class="static">
+                <h2>static</h2>
+                <div class="block">
+                    <div class="frame"
+                    style="
+                        position: static;
+                        width: 100px;
+                        height: 100px;
+                        background-color: brown;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="absolute">
+                <h2>absolute</h2>
+                <div class="fixed width/height">
+                    <h2>fixed width/height</h2>
+
+                    <div class="block">
+                        <div class="frame"
+                        style="
+                            position: absolute;
+                            width: 100px;
+                            height: 100px;
+                            background-color: rgba(165, 42, 42, 0.414);">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="no width/height">
+                    <h2>no width/height</h2>
+
+                    <div class="block">
+                        <div class="frame"
+                        style="
+                            position: static;
+                            border: 3px solid brown;">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fixed">
+                    <h2>fixed width/height + right/top</h2>
+
+                    <div class="block"
+                    style="
+                        height: 150px;
+                        width: 400px;">
+                        <div class="frame"
+                        style="
+                            position: absolute;
+                            right: 30%;
+                            top: 250%;
+                            width: 300px;
+                            height: 100px;
+                            background-color: brown;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="Songkran">
+            <div class="text"
+            style="
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+
+                width: 300px ;
+                text-align: center;
+                background-color: aliceblue;
+                color: aquamarine;">
+                <h1>Songkran Festival 2023</h1>
+            </div>
+        </div>
+        
+    </body>
+</html>
