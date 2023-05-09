@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Matching Game</title>
+    </head>
+    <body>
+        <style>
+            .board{
+                background-color: green;
+                margin: 5px;
+                border-radius: 5px;
+            }
+            .board-content{
+                display: flex;
+                flex-direction: row;
+            }
+            .card-zone{
+                width: 80%;
+            }
+            .player-zone{
+                text-align: center;
+                color: white;
+                border-left: 1px solid white;
+                width: 20%;
+                margin: 0px;
+            }
+            .player-a{
+                border-bottom: 1px solid white;
+                height: 50%;
+            }
+            .player-title{
+                padding-top: 10px;
+            }
+            .player-score{
+                font-size: 90px;
+            }
+            .new-game-button{
+                width: 100%;
+                height: 60px;
+            }
+            .card{
+                display: flex;
+                border: 1px solid black;
+                flex-direction: column;
+                background-color: white;
+                border-radius: 5px;
+                margin: 10px;
+                width: 100px;
+                height: 150px;
+                box-shadow: 0 0 10px 1px #666;
+            }
+            .card-zone{
+                display: flex;
+                flex-wrap: wrap;
+            }
+            .card-title{
+                text-align: end;
+                margin: 2px 5px 0px 0px;
+            }
+            .card-body{
+                text-align: center;
+                font-size: 40px;
+                margin-top: 30px;
+            }
+            .face-down{
+                background-color: rgb(141, 141, 141);
+                color: rgb(72, 72, 72);
+                border: 1px solid rgb(187, 187, 187);
+            }
+            
+        </style>
+
+        <script>
+            var cardList = [
+                { value: ['♣', 'A'], isFaceDown: true },
+                { value: ['♣', '2'], isFaceDown: false },
+                { value: ['♣', '3'], isFaceDown: true },
+                { value: ['♣', '4'], isFaceDown: false },
+                { value: ['♣', '5'], isFaceDown: true },
+                { value: ['♣', '6'], isFaceDown: true },
+                { value: ['♣', '7'], isFaceDown: true },
+                { value: ['♣', '8'], isFaceDown: false },
+                { value: ['♣', '9'], isFaceDown: true },
+                { value: ['♣', '10'], isFaceDown: true },
+                { value: ['♣', 'J'], isFaceDown: true },
+                { value: ['♣', 'Q'], isFaceDown: true },
+                { value: ['♣', 'K'], isFaceDown: false },
+                { value: ['♥', 'A'], isFaceDown: true },
+                { value: ['♥', '2'], isFaceDown: true },
+                { value: ['♥', '3'], isFaceDown: false },
+                { value: ['♥', '4'], isFaceDown: false },
+                { value: ['♥', '5'], isFaceDown: true },
+                { value: ['♥', '6'], isFaceDown: false },
+                { value: ['♥', '7'], isFaceDown: true },
+                { value: ['♥', '8'], isFaceDown: true },
+                { value: ['♥', '9'], isFaceDown: true },
+                { value: ['♥', '10'], isFaceDown: true },
+                { value: ['♥', 'J'], isFaceDown: true },
+                { value: ['♥', 'Q'], isFaceDown: true },
+                { value: ['♥', 'K'], isFaceDown: false },
+            ]
+
+            function htmlToElem(html) {
+                let temp = document.createElement('template');
+                html = html.trim(); // Never return a space text node as a result
+                temp.innerHTML = html;
+                return temp.content.firstChild;
+            }
+
+            function renderCardList() {
+                // TODO: define cardZoneElm here
+                // before append any DOM(s), you need to clear all children of cardZoneElm
+                const cardZoneElm = document.getElementsByClassName("card-zone")
+	            for (var idx=0; idx < cardList.length; idx++) {
+		            // TODO:
+		            // if isFaceDown is true, create a card component with 'face-down' class
+                    if(cardList[idx].isFaceDown == true){
+		                cardElm = htmlToElem(
+			            '<div class="card face-down"><div class="card-title">&nbsp;</div><div class="card-body">?</div></div>'
+		                )
+            
+                    }else{
+                        cardElm = htmlToElem(
+                            '<div class="card"><div class="card-title">'+cardList[idx].value[0]+'</div><div class="card-body">'+cardList[idx].value[1]+'</div></div>'
+                        )
+                        if(cardList[idx].value[0] =='♥' || cardList[idx].value[0] =='♦'){
+                            cardElm.style.color = 'red';
+                            cardElm.style.border = '1px solid red';
+                        }
+                        
+                    }
+                        cardZoneElm[0].append(cardElm)
+                }
+            }
+            window.onload = function(){
+                renderCardList()
+            };
+        </script>
+
+        <div class="board">
+            <div class="board-content">
+              <div class="card-zone">
+                <!-- something to do next -->
+              </div>
+
+              <div class="player-zone">
+                <div class="player player-a">
+                  <div class="player-title">
+                    Player A
+                  </div>
+                  <div class="player-score">
+                    0
+                  </div>
+                </div>
+                <div class="player player-b">
+                  <div class="player-title">
+                    Player B
+                  </div>
+                  <div class="player-score">
+                    0
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="footer">
+                <button class="new-game-button">New Game</button>
+            </div>
+          </div>
+    </body>
+</html>
