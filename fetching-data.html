@@ -1,18 +1,90 @@
 <!DOCTYPE html>
 <html>
   <body>
+    <style>
+      .container{
+        position: relative;
+        background-color: rgb(162, 213, 224);
+        padding: 10px 20px 0px 20px;
+        width: 100%;
+        height: 700px;
+        border-radius: 10px;
+        
+      }
+      .input{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: white;
+        border-radius: 10px;
+        text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+        
+      }
+      .button{
+        display: flex;
+        flex-direction: row;
+        margin: 30px;
+        justify-content: center;
+      }
+      .add{
+        background-color: rgb(4, 135, 4);
+        color:white;
+        width: 60px;
+        height: 30px;
+        margin-right: 30px;
+        border-radius: 5px;
+        box-shadow: 3px 2px 5px rgb(255, 255, 255);
+      }
+      .delete{
+        background-color: rgb(222, 10, 10);
+        color: white;
+        width: 60px;
+        height: 30px;
+        margin-right: 10px;
+        border-radius: 5px;
+        box-shadow: 3px 2px 5px rgb(255, 255, 255);
+      }
+      .show{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 100px;
+        background-color: aliceblue;
+        border: 1px solid black;
+        width: 600px;
+        height: 400px;
+        box-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+      }
+      .show h2{
+        text-align: center;
+        color: rgb(68, 64, 59);
+        margin-bottom: 20px;
+      }
+       
+    </style>
     <div class="container">
-      <input type="text" id="todo-input" />
-      <button id="todo-add-button">add</button>
-      <div id="todo-list-container">
+      <div class="input">
+        <h1>Input your name</h1>
+        <input type="text" id="todo-input" style="width: 170px; height: 40px;"/>
+      </div>
+    <div class="button">
+      <button class="add" id="todo-add-button">add</button>
+      <button class="delete" id="todo-delete-button">delete</button>
+    </div>
+      <div class="show">
+        <h2>Name on your list</h2>
+        <div id="todo-list-container">
         
       </div>
+      </div>
+      
     </div>
-  </body>
-  <script>
+    <script>
     /* open crudcrud.com and then replace ID and resource name. */
-// BEGIN: configuration zone
-/* open crudcrud.com and then replace ID and resource name. */
 // BEGIN: configuration zone
 var CRUD_CURD_ID = "e773895e70424cc4acee2eec50161cf2";
 var CRUD_CURD_RESOURCE_NAME = "todo";
@@ -71,6 +143,22 @@ function addNewTodoItem(value, afterAddFunction) {
   });
 }
 
+function deleteTodoItem(id, afterAddFunction) {
+  var headers = new Headers();
+  headers.append("Content-Type", "application/json");
+
+  var requestOptions = {
+    method: "DELETE",
+    headers: headers
+  };
+
+  fetch(CURD_CURD_API_ENDPOINT + '/' + id, requestOptions).then(function (response) {
+    response.json().then(function (data) {
+      afterAddFunction(data);
+    });
+  });
+}
+
 // END: API fetching zone
 
 // BEGIN: UI Control and logic zone
@@ -86,6 +174,16 @@ function bindEvents() {
       });
     }
   });
+
+  var deleteButtonsElm = document.getElementById("todo-delete-button");
+  deleteButtonsElm.addEventListener("click",function(){
+    var idx = APPLICATION_STATE.todoList.length-1;
+    var todoItemID = APPLICATION_STATE.todoList[idx];
+    var valueItem = todoItemID._id;
+    deleteTodoItem(valueItem, function(){
+      refreshTodoList
+    })
+  })
 }
 
 function renderTodoList() {
@@ -99,6 +197,7 @@ function renderTodoList() {
     );
     todoListElm.append(todoItemElm);
   }
+  
 }
 
 function refreshTodoList () {
@@ -108,6 +207,11 @@ function refreshTodoList () {
   });
 }
 
+var buttonAdd = document.getElementById("todo-add-button");
+buttonAdd.addEventListener("on-click",function(){
+  buttonAdd.style.color = "black";
+})
+
 window.onload = function () {
   bindEvents();
   refreshTodoList();
@@ -115,4 +219,6 @@ window.onload = function () {
 
 // END: UI Control and logic zone
   </script>
+  </body>
+  
 </html>
