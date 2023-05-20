@@ -12,6 +12,8 @@
   <script>
     /* open crudcrud.com and then replace ID and resource name. */
 // BEGIN: configuration zone
+/* open crudcrud.com and then replace ID and resource name. */
+// BEGIN: configuration zone
 var CRUD_CURD_ID = "e773895e70424cc4acee2eec50161cf2";
 var CRUD_CURD_RESOURCE_NAME = "todo";
 var CURD_CURD_API_ENDPOINT =
@@ -69,22 +71,6 @@ function addNewTodoItem(value, afterAddFunction) {
   });
 }
 
-function deleteToDoItem(_id, afterAddFunction) {
-  var headers = new Headers();
-  headers.append("Content-Type", "application/json");
-
-  var requestOptions = {
-    method: "DELETE",
-    headers: headers
-  };
-
-  fetch(CURD_CURD_API_ENDPOINT + '/' + _id, requestOptions).then(function (response) {
-    response.json().then(function (data) {
-      afterAddFunction(data);
-    });
-  });
-}
-
 // END: API fetching zone
 
 // BEGIN: UI Control and logic zone
@@ -109,24 +95,10 @@ function renderTodoList() {
   for (var idx = 0; idx < APPLICATION_STATE.todoList.length; idx++) {
     var todoItem = APPLICATION_STATE.todoList[idx];
     var todoItemElm = htmlToElem(
-      '<div class = "todo-item">' + 
-      '<span>' + todoItem.name + '</span>' +
-      '<button class= "delete-button" data-id = "'+todoItem._id+'">Delete</button>'+
-      '</div>'
+      '<div class="todo-item">' + todoItem.name + "</div>"
     );
     todoListElm.append(todoItemElm);
   }
-
-  var deleteButtons = document.getElementsByClassName("delete-button");
-  for(var i = 0;i < deleteButtons.length;i++){
-    deleteButtons[i].addEventListener("click",function(event){
-    var todoItemId  = event.target.getAttribute("data-id");
-    deleteToDoItem(todoItemId, function(){
-        refreshTodoList();
-    })
-  })
-  }
-  
 }
 
 function refreshTodoList () {
