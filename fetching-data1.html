@@ -1,0 +1,286 @@
+<html>
+<head>
+  <title>Fetching data from API</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pangolin&family=Prompt:wght@200;500;700&display=swap" rel="stylesheet">
+</head>
+<style>
+    body{
+      font-family: 'Pangolin', cursive;
+      font-family: 'Prompt', sans-serif;
+    }
+  .container{
+    position: relative;
+    margin-top: 20px;
+    background-color: rgb(162, 213, 224);
+    padding: 20px 20px 0px 20px;
+    width: 100%;
+    height: 700px;
+    border-radius: 10px;
+    
+  }
+  .input{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    border-radius: 10px;
+    text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+    
+  }
+  .input h1{
+    margin-bottom: 20px;
+  }
+  .button{
+    display: flex;
+    flex-direction: row;
+    margin: 30px;
+    justify-content: center;
+  }
+  .add{
+    background-color: rgb(4, 135, 4);
+    color:white;
+    width: 60px;
+    height: 30px;
+    margin-right: 30px;
+    border-radius: 5px;
+    box-shadow: 3px 2px 5px rgb(255, 255, 255);
+  }
+  .add:hover{
+    background-color: #1f4220; /* Green */
+    color: white;
+  }
+  .delete{
+    background-color: rgb(222, 10, 10);
+    color: white;
+    width: 60px;
+    height: 30px;
+    margin: 0px 0px 10px 10px;
+    border-radius: 5px;
+    box-shadow: 3px 2px 5px rgb(255, 255, 255);
+  }
+  .delete:hover{
+    background-color: #721c1c; /* Green */
+    color: white;
+  }
+  .show{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 100px;
+    padding: 10px;
+    background-color: aliceblue;
+    border: 1px solid black;
+    width: 600px;
+    height: 400px;
+    box-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+  }
+  .show h2{
+    text-align: center;
+    color: rgb(68, 64, 59);
+    margin-bottom: 20px;
+  }
+
+   
+</style>
+  <body style="font-family: 'Kanit', sans-serif;">
+    <audio src="" id="sound"></audio>
+
+    <div class="container">
+
+      <div class="input">
+        <h1>Input your name</h1>
+        <input type="text" id="todo-input" style="width: 170px; height: 40px;"/>
+        <div class="button"><button class="add" id="todo-add-button">add</button></div>
+      </div>
+
+      <div class="show">
+        <h2>Name on your list</h2>
+        <div id="todo-list-container"></div>
+      </div>
+      
+    </div>
+  </body>
+
+  <script>
+    var CRUD_CURD_ID = "5e045865e1614fe49401840669952d7e";
+    var CRUD_CURD_RESOURCE_NAME = "todo";
+    var CURD_CURD_API_ENDPOINT = "https://crudcrud.com/api/" + CRUD_CURD_ID + "/" + CRUD_CURD_RESOURCE_NAME;
+// END:configuration zone
+
+// BEGIN: application variables zone
+var APPLICATION_STATE = {
+  todoList: []
+}
+// END: application variables zone
+
+// BEGIN: utility function zone
+function htmlToElem(html) {
+  let temp = document.createElement("template");
+  html = html.trim(); // Never return a space text node as a result
+  temp.innerHTML = html;
+  return temp.content.firstChild;
+}
+// END: utility function zone
+
+// BEGIN: API fetching zone
+async function loadTodoList(afterLoadFunction) {
+  var headers = new Headers();
+  headers.append("Content-Type", "application/json");
+
+  var requestOptions = {
+    method: "GET",
+    headers: headers
+  };
+
+  await fetch(CURD_CURD_API_ENDPOINT, requestOptions)
+  .then(function (response) {
+    response.json()
+  .then(function (data) {
+      afterLoadFunction(data);
+    });
+  });
+}
+
+function addNewTodoItem(value, afterAddFunction) {
+  var headers = new Headers();
+  headers.append("Content-Type", "application/json");
+
+  var requestOptions = {
+    method: "POST",
+    body: JSON.stringify({
+      name: value
+    }),
+    headers: headers
+  };
+
+  fetch(CURD_CURD_API_ENDPOINT, requestOptions)
+  .then(function (response) {
+    response.json().then(function (data) {
+      afterAddFunction(data);
+    });
+  });
+}
+
+//function delete
+function deleteTodoItem(id, afterDeleteFunction) {
+  var headers = new Headers();
+  headers.append("Content-Type", "application/json");
+
+  var requestOptions = {
+    method: "DELETE",
+    headers: headers
+  };
+
+  fetch(CURD_CURD_API_ENDPOINT+'/'+id, requestOptions)
+  .then(afterDeleteFunction)
+
+}
+
+// BEGIN: UI Control and logic zone
+function bindEvents() {
+  var addButtonElm = document.getElementById("todo-add-button");
+  addButtonElm.addEventListener("click", function () {
+    var inputElm = document.getElementById("todo-input");
+    var todoValue = inputElm.value;
+    inputElm.value = "";
+    if (todoValue !== "") {
+      addNewTodoItem(todoValue, function () {
+        sound("add")
+      });
+      
+    }
+  });
+
+//add code by preme
+ var deleteButtonElm = document.getElementById("todo-delete-button");
+  deleteButtonElm.addEventListener("click", function () {
+    var inputElm = document.getElementById("todo-input");
+    var todoValue = inputElm.value;
+    inputElm.value = "";
+    if (todoValue !== "") {
+      deletETodoItem(todoValue, function () {
+        refreshTodoList()
+      });
+    }
+  });
+
+}
+
+function renderTodoList() {
+  var todoListElm = document.getElementById("todo-list-container");
+  todoListElm.innerHTML = ``;
+
+  for (var idx = 0; idx < APPLICATION_STATE.todoList.length; idx++) {
+    var todoItem = APPLICATION_STATE.todoList[idx];
+    var todoItemElm = htmlToElem(
+      '<div class="todo-item">' + todoItem.name + `<button class="delete" onclick="deleteTodoItem('${todoItem._id}', ()=> sound('del'))">Delete</button></div>`
+    );
+    todoListElm.append(todoItemElm);
+
+  }
+}
+
+//Add By Y
+const sound=(type)=>{
+  const sound = document.getElementById(`sound`)
+  
+  switch(type){
+    case "add":     sound.src = "sound/add.mp3"
+                    sound.autoplay = true
+                    refreshTodoList()
+                    break
+    case "del":     sound.src = "sound/del.mp3"
+                    sound.autoplay = true
+                    refreshTodoList()
+                    break
+    case "delall":  sound.src = "sound/deleteall.mp3"
+                    sound.autoplay = true
+                    refreshTodoList()
+                    break        
+  }
+
+}
+
+async function ClearAll(){
+  await fetch(CURD_CURD_API_ENDPOINT, ({
+    method: "GET"
+  }))
+  .then(res => res.json())
+  .then(data => data.forEach(element => {
+     deleteTodoItem(element._id,() => sound("delall"))
+  })
+  )
+  
+  
+}
+
+    const openModal=()=> {
+      document.getElementById("AddModal").style.display = "block";
+    }
+
+    
+    const closeModal=()=> {
+      document.getElementById("AddModal").style.display = "none";
+    }
+//
+
+function refreshTodoList () {
+  loadTodoList(function (data) {
+    APPLICATION_STATE.todoList = data;
+    renderTodoList();
+  });
+}
+
+window.onload = function () {
+  bindEvents();
+  refreshTodoList();
+};
+</script>
+</html>
